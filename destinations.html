@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Destinations - Explore Georgia</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <header>
@@ -12,26 +13,62 @@
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>
-      <li><a href="destinations.html">Destinations</a></li>
+      <li><a class="active" href="destinations.html">Destinations</a></li>
       <li><a href="culture.html">Culture</a></li>
       <li><a href="gallery.html">Gallery</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
   </nav>
 </header>
-<main>
-  <section class="intro">
-    <h2>Top Destinations in Georgia</h2>
-    <ul>
-      <li>Tbilisi – The vibrant capital city</li>
-      <li>Kazbegi – Breathtaking mountains</li>
-      <li>Batumi – Black Sea coast & nightlife</li>
-      <li>Svaneti – Ancient towers & alpine villages</li>
-    </ul>
-  </section>
+
+<main class="destination-page">
+  <h2>Popular Destinations</h2>
+  <div class="destination-list">
+    <div class="destination-card">
+      <h3>Tbilisi</h3>
+      <p>Explore the charm of Georgia's capital with its rich history and vibrant modern culture.</p>
+      <button class="book-btn" data-destination="Tbilisi">Book Now</button>
+    </div>
+
+    <div class="destination-card">
+      <h3>Kazbegi</h3>
+      <p>Experience breathtaking mountain views and adventure in the Caucasus highlands.</p>
+      <button class="book-btn" data-destination="Kazbegi">Book Now</button>
+    </div>
+
+    <div class="destination-card">
+      <h3>Batumi</h3>
+      <p>Relax on the Black Sea coast and enjoy the dynamic nightlife of Batumi.</p>
+      <button class="book-btn" data-destination="Batumi">Book Now</button>
+    </div>
+  </div>
 </main>
+
+<!-- Booking Modal -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>Book Your Trip to <span id="destinationName"></span></h2>
+    <form id="bookingForm">
+      <label for="fullName">Full Name:</label>
+      <input type="text" id="fullName" name="fullName" required />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="travelDate">Date:</label>
+      <input type="date" id="travelDate" name="travelDate" required />
+
+      <button type="submit">Book</button>
+    </form>
+    <p id="confirmationMessage" style="display: none;"></p>
+  </div>
+</div>
+
 <footer>
   <p>&copy; 2025 Explore Georgia. All rights reserved.</p>
 </footer>
+
+<script src="index.js"></script>
 </body>
 </html>
