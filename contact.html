@@ -15,14 +15,14 @@
       <li><a href="destinations.html">Destinations</a></li>
       <li><a href="culture.html">Culture</a></li>
       <li><a href="gallery.html">Gallery</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
     </ul>
   </nav>
 </header>
-<main>
-  <section class="intro">
+<main class="contact-page">
+  <section class="intro contact-form-container">
     <h2>Contact Us</h2>
-    <form action="#" method="post">
+    <form id="contactForm" action="#" method="post">
       <label for="name">Name:</label><br />
       <input type="text" id="name" name="name" required /><br /><br />
 
@@ -34,10 +34,14 @@
 
       <input type="submit" value="Send Message" />
     </form>
+    <p id="formStatus" style="margin-top: 1rem; color: #2a9d8f; font-weight: 600;"></p>
   </section>
 </main>
 <footer>
   <p>&copy; 2025 Explore Georgia. All rights reserved.</p>
 </footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="contact.js"></script>
 </body>
 </html>

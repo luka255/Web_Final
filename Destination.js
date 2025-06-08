@@ -20,18 +20,15 @@ $(document).ready(function () {
         const email = $("#email").val();
         const date = $("#travelDate").val();
 
-        // Simulate successful booking
         $("#confirmationMessage")
             .html(`Thank you, ${fullName}! Your trip to ${selectedDestination} on ${date} is booked.`)
             .show();
 
-        // Optionally hide modal after a delay
         setTimeout(() => {
             $("#bookingModal").fadeOut();
         }, 3000);
     });
 
-    // Optional: Close modal when clicking outside
     $(window).on("click", function (e) {
         if ($(e.target).is("#bookingModal")) {
             $("#bookingModal").fadeOut();
