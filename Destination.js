@@ -1,37 +1,53 @@
 $(document).ready(function () {
-    let selectedDestination = "";
+    const modal = $("#bookingModal");
+    const destinationName = $("#destinationName");
+    const confirmationMessage = $("#confirmationMessage");
 
     $(".book-btn").on("click", function () {
-        selectedDestination = $(this).data("destination");
-        $("#destinationName").text(selectedDestination);
-        $("#bookingModal").fadeIn();
-        $("#confirmationMessage").hide();
+        const selectedDestination = $(this).data("destination");
+        destinationName.text(selectedDestination);
         $("#bookingForm")[0].reset();
+        confirmationMessage.hide().text("");
+        modal.show();
     });
 
     $(".close-btn").on("click", function () {
-        $("#bookingModal").fadeOut();
+        modal.hide();
+    });
+
+    $(window).on("click", function (event) {
+        if ($(event.target).is(modal)) {
+            modal.hide();
+        }
     });
 
     $("#bookingForm").on("submit", function (e) {
-        e.preventDefault(); // Prevent page reload
+        e.preventDefault();
 
-        const fullName = $("#fullName").val();
-        const email = $("#email").val();
-        const date = $("#travelDate").val();
+        const formData = {
+            destination: destinationName.text(),
+            fullName: $("#fullName").val(),
+            email: $("#email").val(),
+            travelDate: $("#travelDate").val()
+        };
 
-        $("#confirmationMessage")
-            .html(`Thank you, ${fullName}! Your trip to ${selectedDestination} on ${date} is booked.`)
-            .show();
-
-        setTimeout(() => {
-            $("#bookingModal").fadeOut();
-        }, 3000);
-    });
-
-    $(window).on("click", function (e) {
-        if ($(e.target).is("#bookingModal")) {
-            $("#bookingModal").fadeOut();
-        }
+        $.ajax({
+            type: "POST",
+            url: "book_destinations.php",
+            data: formData,
+            success: function (response) {
+                confirmationMessage
+                    .text("Booking successful! Thank you for choosing Explore Georgia.")
+                    .css("color", "green")
+                    .show();
+                $("#bookingForm")[0].reset();
+            },
+            error: function () {
+                confirmationMessage
+                    .text("An error occurred while booking. Please try again.")
+                    .css("color", "red")
+                    .show();
+            }
+        });
     });
 });

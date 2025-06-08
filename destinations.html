@@ -48,7 +48,9 @@
   <div class="modal-content">
     <span class="close-btn">&times;</span>
     <h2>Book Your Trip to <span id="destinationName"></span></h2>
-    <form id="bookingForm">
+    <form id="bookingForm" method="POST" action="book_destination.php">
+      <input type="hidden" id="destinationInput" name="destination" />
+
       <label for="fullName">Full Name:</label>
       <input type="text" id="fullName" name="fullName" required />
 
