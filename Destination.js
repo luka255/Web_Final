@@ -1,53 +1,60 @@
-$(document).ready(function () {
-    const modal = $("#bookingModal");
-    const destinationName = $("#destinationName");
-    const confirmationMessage = $("#confirmationMessage");
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("bookingModal");
+    const destinationName = document.getElementById("destinationName");
+    const confirmationMessage = document.getElementById("confirmationMessage");
+    const bookingForm = document.getElementById("bookingForm");
 
-    $(".book-btn").on("click", function () {
-        const selectedDestination = $(this).data("destination");
-        destinationName.text(selectedDestination);
-        $("#bookingForm")[0].reset();
-        confirmationMessage.hide().text("");
-        modal.show();
+    const bookButtons = document.querySelectorAll(".book-btn");
+    bookButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            const selectedDestination = button.getAttribute("data-destination");
+            destinationName.textContent = selectedDestination;
+            bookingForm.reset();
+            confirmationMessage.style.display = "none";
+            confirmationMessage.textContent = "";
+            modal.style.display = "block";
+        });
     });
 
-    $(".close-btn").on("click", function () {
-        modal.hide();
+    const closeButtons = document.querySelectorAll(".close-btn");
+    closeButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
     });
 
-    $(window).on("click", function (event) {
-        if ($(event.target).is(modal)) {
-            modal.hide();
+    window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
         }
     });
 
-    $("#bookingForm").on("submit", function (e) {
+    bookingForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        const formData = {
-            destination: destinationName.text(),
-            fullName: $("#fullName").val(),
-            email: $("#email").val(),
-            travelDate: $("#travelDate").val()
-        };
+        const formData = new FormData(bookingForm);
+        formData.append("destination", destinationName.textContent);
 
-        $.ajax({
-            type: "POST",
-            url: "book_destinations.php",
-            data: formData,
-            success: function (response) {
-                confirmationMessage
-                    .text("Booking successful! Thank you for choosing Explore Georgia.")
-                    .css("color", "green")
-                    .show();
-                $("#bookingForm")[0].reset();
-            },
-            error: function () {
-                confirmationMessage
-                    .text("An error occurred while booking. Please try again.")
-                    .css("color", "red")
-                    .show();
-            }
-        });
+        fetch("book_destinations.php", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.text();
+            })
+            .then(data => {
+                confirmationMessage.textContent = "Booking successful! Thank you for choosing Explore Georgia.";
+                confirmationMessage.style.color = "green";
+                confirmationMessage.style.display = "block";
+                bookingForm.reset();
+            })
+            .catch(error => {
+                confirmationMessage.textContent = "An error occurred while booking. Please try again.";
+                confirmationMessage.style.color = "red";
+                confirmationMessage.style.display = "block";
+            });
     });
 });

@@ -30,5 +30,5 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] === "POST") 
     http_response_code(405);
     echo "Invalid request.";
 }
-?>
+
 

@@ -235,12 +235,12 @@ footer {
     transform: scale(1.015);
 }
 .contact-page {
-    flex: 1; /* allow main to grow and fill space */
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 2rem;
-    min-height: calc(100vh - 140px); /* subtract approx header+footer height */
+    min-height: calc(100vh - 140px);
 }
 
 .contact-form-container {

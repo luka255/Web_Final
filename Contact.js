@@ -1,21 +1,46 @@
-﻿$(document).ready(function() {
-    $("#contactForm").on("submit", function(e) {
+﻿document.addEventListener("DOMContentLoaded", function () {
+    const contactForm = document.getElementById("contactForm");
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const messageInput = document.getElementById("message");
+    const formStatus = document.getElementById("formStatus");
+
+    contactForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        const name = $("#name").val().trim();
-        const email = $("#email").val().trim();
-        const message = $("#message").val().trim();
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const message = messageInput.value.trim();
 
         if (!name || !email || !message) {
-            $("#formStatus").css("color", "red").text("Please fill out all fields.");
+            formStatus.style.color = "red";
+            formStatus.textContent = "Please fill out all fields.";
             return;
         }
 
-        $("#formStatus").css("color", "#2a9d8f").text("Sending your message...");
+        formStatus.style.color = "#2a9d8f";
+        formStatus.textContent = "Sending your message...";
 
-        setTimeout(() => {
-            $("#formStatus").css("color", "#2a9d8f").text("Thank you for contacting us! We'll get back to you soon.");
-            $("#contactForm")[0].reset();
-        }, 1500);
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("email", email);
+        formData.append("message", message);
+
+        fetch("contact.php", {
+            method: "POST",
+            body: formData,
+        })
+            .then(response => response.text())
+            .then(data => {
+                formStatus.style.color = "#2a9d8f";
+                formStatus.textContent = data;
+                contactForm.reset();
+            })
+            .catch(error => {
+                formStatus.style.color = "red";
+                formStatus.textContent = "There was a problem sending your message. Please try again later.";
+                console.error("Error:", error);
+            });
     });
 });
+
